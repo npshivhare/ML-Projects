@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI EXPO 1.0 - Machine Learning Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-cyan: #00f3ff;
+            --accent-magenta: #ff0080;
+            --dark-bg: #0a0e27;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(0, 243, 255, 0.05) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-10%, -10%) rotate(5deg); }
+        }
+
+        /* Grid Pattern Overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Content Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header Section */
+        header {
+            padding: 3rem 0 2rem;
+            text-align: center;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-section {
+            margin-bottom: 2rem;
+        }
+
+        .institute-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .department {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+        }
+
+        .expo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 1rem 0;
+            animation: titleGlow 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .expo-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        /* Team Section */
+        .team-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 40px rgba(0, 243, 255, 0.2);
+        }
+
+        .team-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            background: rgba(0, 243, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .member-id {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            margin-right: 1rem;
+            min-width: 100px;
+        }
+
+        .member-name {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        /* Project Cards */
+        .project-card {
+            position: relative;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0, 243, 255, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 20px 60px rgba(0, 243, 255, 0.3);
+        }
+
+        .project-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .project-category {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            background: rgba(0, 243, 255, 0.1);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .project-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .launch-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.5);
+        }
+
+        .launch-btn::after {
+            content: '→';
+            font-size: 1.2rem;
+        }
+
+        /* Color Variations for Cards */
+        .project-card:nth-child(1) { --card-accent: #9b59b6; }
+        .project-card:nth-child(2) { --card-accent: #16a085; }
+        .project-card:nth-child(3) { --card-accent: #2980b9; }
+        .project-card:nth-child(4) { --card-accent: #c0392b; }
+        .project-card:nth-child(5) { --card-accent: #2c3e50; }
+
+        .project-card:nth-child(1):hover { border-color: #9b59b6; }
+        .project-card:nth-child(2):hover { border-color: #16a085; }
+        .project-card:nth-child(3):hover { border-color: #2980b9; }
+        .project-card:nth-child(4):hover { border-color: #c0392b; }
+        .project-card:nth-child(5):hover { border-color: #2c3e50; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .expo-title {
+                font-size: 3rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-section">
+                <div class="institute-name">Shri G.S. Institute of Technology and Science</div>
+                <div class="department">Department of Information Technology</div>
+            </div>
+            <h1 class="expo-title">AI EXPO 1.0</h1>
+            <div class="expo-subtitle">2025 - 2026</div>
+            <p class="tagline">Classification Across Five Modalities: Audio • Image • Numeric • Text • Video/Vision</p>
+        </header>
+
+        <!-- Team Section -->
+        <div class="team-section">
+            <div class="team-card">
+                <h3>👥 CONTRIBUTORS</h3>
+                <div class="team-member">
+                    <span class="member-id">0801IT231086</span>
+                    <span class="member-name">Nrependre Shivhare</span>
+                </div>
+                <div class="team-member">
+                    <span class="member-id">0801IT231067</span>
+                    <span class="member-name">Krish Naik</span>
+                </div>
+                <div class="team-member">
+                    <span class="member-id">0801IT231095</span>
+                    <span class="member-name">Prasham Godha</span>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <h3>🎓 MENTORS</h3>
+                <div class="team-member">
+                    <span class="member-name">Dr. K. K. Sharma</span>
+                </div>
+                <div class="team-member">
+                    <span class="member-name">Dr. Lalit Purohit</span>
+                </div>
+                <div class="team-member">
+                    <span class="member-name">Dr. Upendra Singh</span>
+                </div>
+                <div class="team-member">
+                    <span class="member-name">Mr. Akshay Gupta</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <section class="projects-section">
+            <h2 class="section-title">Machine Learning Projects</h2>
+            
+            <div class="projects-grid">
+                <!-- Project 1: Indian Language Detection -->
+                <div class="project-card" onclick="window.open('https://language-detection-n9dzfxjanxvfckurbhhs5x.streamlit.app/', '_blank')">
+                    <div class="project-icon">🎵</div>
+                    <span class="project-category">Audio - Speech Processing</span>
+                    <h3 class="project-title">Indian Language Identification</h3>
+                    <p class="project-description">
+                        Identifies 22 officially recognized languages and 1000+ mother tongues across India using advanced audio analysis and deep learning.
+                    </p>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-label">Accuracy</span>
+                            <span class="stat-value">97.0%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Models</span>
+                            <span class="stat-value">3</span>
+                        </div>
+                    </div>
+                    <a href="https://language-detection-n9dzfxjanxvfckurbhhs5x.streamlit.app/" target="_blank" class="launch-btn">Launch App</a>
+                </div>
+
+                <!-- Project 2: Lumpy Skin Disease -->
+                <div class="project-card" onclick="window.open('https://lumpy-skin-disease-app-app-eux4j4byzabeo9d4rrc9sp.streamlit.app/', '_blank')">
+                    <div class="project-icon">🐄</div>
+                    <span class="project-category">Image - Deep Learning • CNN</span>
+                    <h3 class="project-title">Lumpy Skin Disease Detection</h3>
+                    <p class="project-description">
+                        Early detection system for viral livestock infection using CNNs to identify binary skin lesion classifications and prevent epidemic outbreaks.
+                    </p>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-label">Accuracy</span>
+                            <span class="stat-value">94.6%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Dataset</span>
+                            <span class="stat-value">640 img</span>
+                        </div>
+                    </div>
+                    <a href="https://lumpy-skin-disease-app-app-eux4j4byzabeo9d4rrc9sp.streamlit.app/" target="_blank" class="launch-btn">Launch App</a>
+                </div>
+
+                <!-- Project 3: Olympic Medal Prediction -->
+                <div class="project-card" onclick="window.open('https://olympics-app-app-ec8zgxigul44bauxzzeqxq.streamlit.app/', '_blank')">
+                    <div class="project-icon">🏅</div>
+                    <span class="project-category">Numeric - Sports Analytics • ML</span>
+                    <h3 class="project-title">Olympic Medal Probability</h3>
+                    <p class="project-description">
+                        Sport-specific binary classifiers predict medal probability across 27K athlete profiles using historical performance data and advanced analytics.
+                    </p>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-label">Best Model</span>
+                            <span class="stat-value">81%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Sports</span>
+                            <span class="stat-value">66</span>
+                        </div>
+                    </div>
+                    <a href="https://olympics-app-app-ec8zgxigul44bauxzzeqxq.streamlit.app/" target="_blank" class="launch-btn">Launch App</a>
+                </div>
+
+                <!-- Project 4: SMS & Email Spam Detection -->
+                <div class="project-card" onclick="window.open('https://spam-detection-j38eizgf968q9jznkjclfa.streamlit.app/', '_blank')">
+                    <div class="project-icon">📧</div>
+                    <span class="project-category">Text - NLP • Classification</span>
+                    <h3 class="project-title">SMS & Email Spam Detection</h3>
+                    <p class="project-description">
+                        Complete end-to-end pipeline using TF-IDF and multiple classifiers to detect phishing and malicious content with high precision.
+                    </p>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-label">Accuracy</span>
+                            <span class="stat-value">98.12%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Precision</span>
+                            <span class="stat-value">95%</span>
+                        </div>
+                    </div>
+                    <a href="https://spam-detection-j38eizgf968q9jznkjclfa.streamlit.app/" target="_blank" class="launch-btn">Launch App</a>
+                </div>
+
+                <!-- Project 5: Face Recognition Attendance -->
+                <div class="project-card" onclick="window.open('https://face-detection-84kwe6szpukadkp4o2tjyt.streamlit.app/', '_blank')">
+                    <div class="project-icon">👤</div>
+                    <span class="project-category">Video - Face • Biometrics</span>
+                    <h3 class="project-title">Face Recognition Attendance</h3>
+                    <p class="project-description">
+                        Real-time attendance system using FaceNet model with cosine similarity matching and automated log generation for seamless tracking.
+                    </p>
+                    <div class="project-stats">
+                        <div class="stat">
+                            <span class="stat-label">Accuracy</span>
+                            <span class="stat-value">99.6%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">LFW Test</span>
+                            <span class="stat-value">99.6%</span>
+                        </div>
+                    </div>
+                    <a href="https://face-detection-84kwe6szpukadkp4o2tjyt.streamlit.app/" target="_blank" class="launch-btn">Launch App</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p class="footer-text">© 2025-2026 Shri G.S. Institute of Technology and Science, Indore</p>
+            <p class="footer-text">Department of Information Technology • ML LAB • AY 2026-26</p>
+        </footer>
+    </div>
+
+    <script>
+        // Parallax effect for background
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            document.querySelector('.animated-bg').style.transform = 
+                `translate(${mouseX * 20}px, ${mouseY * 20}px)`;
+        });
+
+        // Add scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
